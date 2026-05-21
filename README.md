@@ -2,11 +2,6 @@
 
 Fine-tuning `bert-base-uncased` on SST-2 for binary sentiment classification. Reaches **93.3% validation accuracy** — 0.2 points below the original paper — in **5 minutes** on a consumer GPU.
 
-![Python](https://img.shields.io/badge/python-3.13-3776AB?logo=python&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.11-EE4C2C?logo=pytorch&logoColor=white)
-![Accuracy](https://img.shields.io/badge/SST--2%20accuracy-93.3%25-brightgreen)
-[![CI](https://github.com/USERNAME/bert-sentiment/actions/workflows/ci.yml/badge.svg)](https://github.com/USERNAME/bert-sentiment/actions/workflows/ci.yml)
-
 ## Results
 
 | Model                                                                       | Val Accuracy | Training Time | Hardware           |
