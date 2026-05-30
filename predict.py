@@ -3,17 +3,27 @@ import sys
 from pathlib import Path
 
 import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, PreTrainedModel, PreTrainedTokenizerBase
+from transformers import (
+    AutoModelForSequenceClassification,
+    AutoTokenizer,
+    PreTrainedModel,
+    PreTrainedTokenizerBase,
+)
 
 from config import MAX_LENGTH, OUTPUT_DIR
 
 LABELS = {0: "NEGATIVE", 1: "POSITIVE"}
 
 
-def load_model(checkpoint_dir: str = OUTPUT_DIR) -> tuple[PreTrainedModel, PreTrainedTokenizerBase]:
+def load_model(
+    checkpoint_dir: str = OUTPUT_DIR,
+) -> tuple[PreTrainedModel, PreTrainedTokenizerBase]:
     path = Path(checkpoint_dir)
     if not path.exists():
-        print(f"Error: checkpoint not found at '{checkpoint_dir}'. Run training first.", file=sys.stderr)
+        print(
+            f"Error: checkpoint not found at '{checkpoint_dir}'. Run training first.",
+            file=sys.stderr,
+        )
         sys.exit(1)
     tokenizer = AutoTokenizer.from_pretrained(checkpoint_dir)
     model = AutoModelForSequenceClassification.from_pretrained(checkpoint_dir)
@@ -21,8 +31,12 @@ def load_model(checkpoint_dir: str = OUTPUT_DIR) -> tuple[PreTrainedModel, PreTr
     return model, tokenizer
 
 
-def predict(text: str, model: PreTrainedModel, tokenizer: PreTrainedTokenizerBase) -> dict[str, object]:
-    inputs = tokenizer(text, truncation=True, max_length=MAX_LENGTH, return_tensors="pt")
+def predict(
+    text: str, model: PreTrainedModel, tokenizer: PreTrainedTokenizerBase
+) -> dict[str, object]:
+    inputs = tokenizer(
+        text, truncation=True, max_length=MAX_LENGTH, return_tensors="pt"
+    )
     inputs = {k: v.to(model.device) for k, v in inputs.items()}
     with torch.no_grad():
         logits = model(**inputs).logits
@@ -32,9 +46,18 @@ def predict(text: str, model: PreTrainedModel, tokenizer: PreTrainedTokenizerBas
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Predict sentiment of text using a fine-tuned BERT model")
-    parser.add_argument("text", nargs="?", help="Text to classify (omit for interactive mode)")
-    parser.add_argument("--checkpoint", default=OUTPUT_DIR, metavar="DIR", help="Path to model checkpoint")
+    parser = argparse.ArgumentParser(
+        description="Predict sentiment of text using a fine-tuned BERT model"
+    )
+    parser.add_argument(
+        "text", nargs="?", help="Text to classify (omit for interactive mode)"
+    )
+    parser.add_argument(
+        "--checkpoint",
+        default=OUTPUT_DIR,
+        metavar="DIR",
+        help="Path to model checkpoint",
+    )
     args = parser.parse_args()
 
     model, tokenizer = load_model(args.checkpoint)
