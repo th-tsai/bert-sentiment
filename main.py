@@ -2,9 +2,9 @@ import json
 import time
 from pathlib import Path
 
-from src.data import load_and_tokenize
-from src.model import get_model
-from src.train import get_trainer
+from src.bert_sentiment.data import load_and_tokenize
+from src.bert_sentiment.model import get_model
+from src.bert_sentiment.train import get_trainer
 from config import OUTPUT_DIR
 
 
@@ -51,7 +51,7 @@ def main() -> None:
     print(f"Val accuracy: {results['val_accuracy']:.4f}")
     print(f"Results saved to {out}/results.json")
 
-    from src.plot import plot_training_curves
+    from src.bert_sentiment.plot import plot_training_curves
     plot_training_curves(str(history_path))
 
     print(f"Done. Best model saved to {OUTPUT_DIR}/")
