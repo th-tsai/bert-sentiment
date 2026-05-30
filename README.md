@@ -26,8 +26,7 @@ A few MB adapter vs. ~440 MB full checkpoint, 27% faster training, swappable wit
 
 | Method                                                                      | Val Accuracy | Trainable Params | Training Time | Hardware           |
 | --------------------------------------------------------------------------- | ------------ | ---------------- | ------------- | ------------------ |
-| No fine-tuning (random classifier head, seed=42)                            | 50.9%        | 0                | —             | —                  |
-| Majority-class baseline                                                     | 50.9%        | 0                | —             | —                  |
+| No fine-tuning                                                              | 50.9%        | 0                | —             | —                  |
 | Full fine-tuning                                                            | **93.3%**    | 109.8M (100%)    | 5m 13s        | RTX 5070 Ti Laptop |
 | LoRA (r=8, α=16, query+value)                                               | 91.3%        | 296k (**0.27%**) | 3m 47s        | RTX 5070 Ti Laptop |
 | BERT-base-uncased ([Devlin et al., 2019](https://arxiv.org/abs/1810.04805)) | 93.5%        | 109.8M (100%)    | —             | TPU v3             |
@@ -95,8 +94,6 @@ Sweep `r ∈ {4, 8, 16}` with `alpha = 2r` held fixed (3 epochs each):
 | 16  | 32  | 591k (0.54%)     | 92.0%        | 5m 15s        |
 
 The 0.6% spread is within seed noise; rank has essentially no effect on SST-2 in this range. The smallest rank (`r=4`) gets the best result by chance — practically, **`r=4` is the better default** here since it halves the trainable parameters with no accuracy cost.
-
-![LoRA rank ablation](result/ablation_lora_rank/ablation.png)
 
 Reproduce with:
 
