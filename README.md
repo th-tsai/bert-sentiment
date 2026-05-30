@@ -2,6 +2,26 @@
 
 Fine-tuning `bert-base-uncased` on SST-2 for binary sentiment classification, comparing **full fine-tuning** against **LoRA** (parameter-efficient fine-tuning).
 
+## Takeaway
+
+**Pre-trained representations transfer remarkably well.**
+BERT jumps from ~51% (random head) to 93.3% in 3 epochs. Almost all the signal is already in the weights — fine-tuning just steers the classifier.
+
+**Task-specific adaptation is low-dimensional.**
+LoRA hits 91.3% updating only 0.27% of parameters. The information needed to adapt to SST-2 lives in a very small subspace of the weight updates.
+
+**Rank sensitivity depends on task complexity.**
+Across r ∈ {4, 8, 16}, accuracy varies by just 0.6% — within noise. On a simple binary task, rank barely matters; it likely matters more on generation or reasoning.
+
+**Always run baselines.**
+Both the random head and majority-class baseline land at ~50.9% (chance), confirming the dataset is balanced and all accuracy gains are real. Baselines give you a meaningful floor before trusting any result.
+
+**LoRA is the practical default for deployment.**
+A few MB adapter vs. ~440 MB full checkpoint, 27% faster training, swappable without reloading the base model — for a ~2 point accuracy cost, the trade-off is almost always worth it.
+
+**Published results are reproducible.**
+93.3% vs. the paper's 93.5% validates the entire pipeline. Confirming this before running novel experiments means you can trust what comes next.
+
 ## Results
 
 | Method                                                                      | Val Accuracy | Trainable Params | Training Time | Hardware           |
