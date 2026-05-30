@@ -10,7 +10,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-from .config import OUTPUT_DIR
+from .config import OUTPUT_DIR, PROJECT_ROOT
 from .data import load_and_tokenize
 from .model import get_model
 from .train import get_trainer
@@ -86,7 +86,9 @@ def run_ablation() -> None:
     with open(root / "summary.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    plot_path = root / "ablation.png"
+    figures_dir = PROJECT_ROOT / "figures"
+    figures_dir.mkdir(exist_ok=True)
+    plot_path = figures_dir / "ablation.png"
     _plot(results, plot_path)
     print(f"\nSaved ablation plot to {plot_path}")
 

@@ -4,7 +4,7 @@ import json
 import time
 from pathlib import Path
 
-from .config import OUTPUT_DIR
+from .config import OUTPUT_DIR, PROJECT_ROOT
 from .data import load_and_tokenize
 from .model import get_model
 from .plot import plot_training_curves
@@ -55,7 +55,9 @@ def run_full_ft() -> None:
         json.dump(results, f, indent=2)
 
     trainer.save_model(str(out))
-    plot_training_curves(str(history_path), str(out / "training_curves.png"))
+    figures_dir = PROJECT_ROOT / "figures"
+    figures_dir.mkdir(exist_ok=True)
+    plot_training_curves(str(history_path), str(figures_dir / "training_curves.png"))
 
     print(f"Val accuracy: {val_accuracy:.4f}")
     print(f"Best model saved to {out}/")

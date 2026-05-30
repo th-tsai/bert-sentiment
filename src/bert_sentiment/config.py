@@ -3,6 +3,7 @@ from pathlib import Path
 import yaml
 
 _PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = _PROJECT_ROOT
 with open(_PROJECT_ROOT / "config" / "training_config.yaml") as _f:
     _cfg = yaml.safe_load(_f)
 
