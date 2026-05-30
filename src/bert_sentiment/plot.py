@@ -5,10 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 
-def plot_training_curves(
-    history_path: str = "output/training_history.json",
-    output_path: str = "figures/training_curves.png",
-) -> None:
+def plot_training_curves(history_path: str, output_path: str) -> None:
     Path(output_path).parent.mkdir(exist_ok=True)
 
     with open(history_path) as f:
@@ -42,4 +39,3 @@ def plot_training_curves(
 
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches="tight")
-    print(f"Saved training curves to {output_path}")

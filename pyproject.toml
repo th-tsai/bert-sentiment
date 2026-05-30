@@ -1,7 +1,7 @@
 [project]
 name = "bert-sentiment"
 version = "0.1.0"
-description = "Add your description here"
+description = "Fine-tuning BERT on SST-2 for binary sentiment classification (full FT and LoRA)"
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 dependencies = [
@@ -9,6 +9,8 @@ dependencies = [
     "datasets>=4.8.5",
     "matplotlib>=3.10.0",
     "numpy>=2.4.0",
+    "peft>=0.13.0",
+    "pyyaml>=6.0",
     "torch>=2.11.0",
     "transformers>=4.40.0",
 ]
