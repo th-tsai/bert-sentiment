@@ -1,0 +1,17 @@
+model_name: bert-base-uncased
+max_length: 128
+batch_size: 32
+# Increase if GPU memory is tight (effective batch = batch_size * gradient_accumulation_steps).
+gradient_accumulation_steps: 1
+learning_rate: 2.0e-5
+num_epochs: 3
+output_dir: result
+
+# LoRA (parameter-efficient fine-tuning). Triggered by `main.py --lora`.
+lora_learning_rate: 3.0e-4  # LoRA needs a higher LR than full FT
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.1
+lora_target_modules:  # BERT attention projections
+  - query
+  - value
