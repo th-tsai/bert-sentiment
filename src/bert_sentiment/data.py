@@ -1,20 +1,16 @@
-from datasets import DatasetDict
+from datasets import DatasetDict, load_dataset
 from transformers import AutoTokenizer, PreTrainedTokenizerBase
-from config import MODEL_NAME, MAX_LENGTH
 
+from .config import MAX_LENGTH, MODEL_NAME
 
-def get_tokenizer() -> PreTrainedTokenizerBase:
-    return AutoTokenizer.from_pretrained(MODEL_NAME)
+LABELS = {0: "NEGATIVE", 1: "POSITIVE"}
 
 
 def load_and_tokenize() -> tuple[DatasetDict, PreTrainedTokenizerBase]:
-    from datasets import load_dataset
-
     dataset = load_dataset("glue", "sst2")
-    tokenizer = get_tokenizer()
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
     def tokenize(batch: dict) -> dict:
         return tokenizer(batch["sentence"], truncation=True, max_length=MAX_LENGTH)
 
-    tokenized = dataset.map(tokenize, batched=True)
-    return tokenized, tokenizer
+    return dataset.map(tokenize, batched=True), tokenizer
